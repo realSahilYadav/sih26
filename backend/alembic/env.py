@@ -6,10 +6,8 @@ from sqlalchemy import engine_from_config, pool
 from app.core.config import settings
 from app.core.database import Base
 
-# Import all model modules here so that Base.metadata is populated
-# before autogenerate is invoked.
-# e.g.:
-# from app.models import user, facility  # noqa: F401
+# Import all model modules so Base.metadata is fully populated
+import app.models  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -24,6 +22,13 @@ if config.config_file_name is not None:
 
 # The target metadata for autogenerate support
 target_metadata = Base.metadata
+
+
+def include_object(object, name, type_, reflected, compare_to):
+    """Exclude PostGIS internal tables from autogenerate diffs."""
+    if type_ == "table" and name == "spatial_ref_sys":
+        return False
+    return True
 
 
 def run_migrations_offline() -> None:
@@ -41,6 +46,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        include_object=include_object,
     )
 
     with context.begin_transaction():
@@ -60,7 +66,11 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata)
+        context.configure(
+            connection=connection,
+            target_metadata=target_metadata,
+            include_object=include_object,
+        )
 
         with context.begin_transaction():
             context.run_migrations()
