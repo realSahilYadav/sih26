@@ -7,7 +7,7 @@ import uuid
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import Enum, String, Text, text
+from sqlalchemy import Boolean, Enum, String, Text, text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -48,6 +48,9 @@ class User(Base):
     )
     created_at: Mapped[datetime] = mapped_column(
         nullable=False, server_default=text("now()")
+    )
+    is_active: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=text("true")
     )
 
     # ── Relationships ────────────────────────────────────────────────────

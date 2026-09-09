@@ -1,59 +1,40 @@
-import { useEffect, useState } from 'react'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import LoginPage from './pages/LoginPage'
+import HomePage from './pages/HomePage'
 import './App.css'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+function AppContent() {
+  const { user, loading } = useAuth()
 
-function App() {
-  const [health, setHealth] = useState(null)
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
-
-  const checkHealth = async () => {
-    setLoading(true)
-    setError(null)
-    try {
-      const res = await fetch(`${API_URL}/api/health`)
-      const data = await res.json()
-      setHealth(data)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
+  if (loading) {
+    return (
+      <div className="app" style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        background: '#0f172a',
+      }}>
+        <div style={{
+          width: 40,
+          height: 40,
+          border: '3px solid rgba(56, 189, 248, 0.2)',
+          borderTopColor: '#38bdf8',
+          borderRadius: '50%',
+          animation: 'spin 0.7s linear infinite',
+        }} />
+      </div>
+    )
   }
 
-  useEffect(() => {
-    checkHealth()
-  }, [])
+  return user ? <HomePage /> : <LoginPage />
+}
 
+function App() {
   return (
-    <div className="app">
-      <div className="card">
-        <div className="badge">Patient Portal</div>
-        <h1>Rural Healthcare Platform</h1>
-        <p className="subtitle">User Frontend</p>
-
-        <div className="health-status">
-          <h2>API Health Check</h2>
-          {loading && <div className="status loading">Connecting…</div>}
-          {error && (
-            <div className="status error">
-              <span className="dot dot-error"></span>
-              Offline — {error}
-            </div>
-          )}
-          {health && (
-            <div className="status success">
-              <span className="dot dot-success"></span>
-              {health.status} — {new Date(health.timestamp).toLocaleString()}
-            </div>
-          )}
-          <button onClick={checkHealth} disabled={loading}>
-            Refresh
-          </button>
-        </div>
-      </div>
-    </div>
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   )
 }
 

@@ -28,5 +28,13 @@ class Settings(BaseSettings):
     # ── Maps ──────────────────────────────────────────────────────────────
     MAPS_API_KEY: str = ""
 
+    # ── Auth / JWT ────────────────────────────────────────────────────────
+    JWT_SECRET_KEY: str = "dev-secret-change-me-in-production"
+    JWT_ALGORITHM: str = "HS256"
+    JWT_EXPIRE_MINUTES: int = 1440  # 24 hours
+
+    # ── OTP ───────────────────────────────────────────────────────────────
+    OTP_DEV_CODE: str = "123456"
+
 
 settings = Settings()
