@@ -64,3 +64,32 @@ export async function getMe() {
   if (!res.ok) return null
   return res.json()
 }
+
+// ── Appointments ────────────────────────────────────────────────────────────
+
+/**
+ * Get today's appointment queue for the current doctor.
+ */
+export async function fetchTodayQueue(doctorId) {
+  const res = await apiFetch(`/api/appointments/doctor/${doctorId}/today`)
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to fetch queue' }))
+    throw new Error(err.detail || 'Failed to fetch queue')
+  }
+  return res.json()
+}
+
+/**
+ * Update an appointment's status.
+ */
+export async function updateAppointmentStatus(appointmentId, newStatus) {
+  const res = await apiFetch(`/api/appointments/${appointmentId}/status`, {
+    method: 'PATCH',
+    body: JSON.stringify({ status: newStatus }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to update status' }))
+    throw new Error(err.detail || 'Failed to update status')
+  }
+  return res.json()
+}
