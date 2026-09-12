@@ -126,3 +126,47 @@ export async function fetchMyAppointments() {
   }
   return res.json()
 }
+
+// ── Triage ───────────────────────────────────────────────────────────────────
+
+export async function fetchTriageSymptoms() {
+  const res = await apiFetch('/api/triage/symptoms')
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to fetch symptoms' }))
+    throw new Error(err.detail || 'Failed to fetch symptoms')
+  }
+  return res.json()
+}
+
+export async function submitTriage(data) {
+  const res = await apiFetch('/api/triage', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Triage evaluation failed' }))
+    throw new Error(err.detail || 'Triage evaluation failed')
+  }
+  return res.json()
+}
+
+export async function fetchTriageHistory() {
+  const res = await apiFetch('/api/triage/history')
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to fetch triage history' }))
+    throw new Error(err.detail || 'Failed to fetch triage history')
+  }
+  return res.json()
+}
+
+export async function linkTriageAppointment(triageId, appointmentId) {
+  const res = await apiFetch(`/api/triage/${triageId}/link-appointment`, {
+    method: 'PATCH',
+    body: JSON.stringify({ appointment_id: appointmentId }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to link appointment' }))
+    throw new Error(err.detail || 'Failed to link appointment')
+  }
+  return res.json()
+}

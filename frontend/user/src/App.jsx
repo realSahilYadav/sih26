@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage'
 import FacilitySearch from './pages/FacilitySearch'
 import BookAppointment from './pages/BookAppointment'
 import MyAppointments from './pages/MyAppointments'
+import TriagePage from './pages/TriagePage'
 import './App.css'
 
 function ProtectedRoute({ children }) {
@@ -65,6 +66,7 @@ function AppRoutes() {
       <Route path="/facilities" element={<ProtectedRoute><FacilitySearch /></ProtectedRoute>} />
       <Route path="/book/:facilityId" element={<ProtectedRoute><BookAppointment /></ProtectedRoute>} />
       <Route path="/appointments" element={<ProtectedRoute><MyAppointments /></ProtectedRoute>} />
+      <Route path="/triage" element={<ProtectedRoute><TriagePage /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

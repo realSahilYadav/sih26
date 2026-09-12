@@ -8,6 +8,13 @@ export default function HomePage() {
 
   const cards = [
     {
+      title: 'Check Symptoms',
+      description: 'Quick health check — get urgency guidance',
+      icon: '🩺',
+      path: '/triage',
+      gradient: 'linear-gradient(135deg, #22c55e, #0ea5e9)',
+    },
+    {
       title: 'Find Facilities',
       description: 'Search nearby health centres, PHCs, and hospitals',
       icon: '🏥',
