@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { fetchTodayQueue, updateAppointmentStatus } from '../services/api'
 import '../App.css'
@@ -23,6 +24,7 @@ const REFRESH_INTERVAL = 30000 // 30 seconds
 
 export default function HomePage() {
   const { user, logout } = useAuth()
+  const navigate = useNavigate()
   const [queue, setQueue] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -171,6 +173,46 @@ export default function HomePage() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Quick actions */}
+        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem' }}>
+          <div
+            onClick={() => navigate('/refer')}
+            style={{
+              flex: 1,
+              background: '#1e293b',
+              border: '1px solid #334155',
+              borderRadius: 8,
+              padding: '0.75rem',
+              cursor: 'pointer',
+              textAlign: 'center',
+              transition: 'border-color 0.2s',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.borderColor = '#34d399'}
+            onMouseLeave={(e) => e.currentTarget.style.borderColor = '#334155'}
+          >
+            <div style={{ fontSize: '1.3rem', marginBottom: '0.25rem' }}>↗️</div>
+            <div style={{ fontSize: '0.8rem', color: '#f1f5f9', fontWeight: 500 }}>Refer Patient</div>
+          </div>
+          <div
+            onClick={() => navigate('/referrals')}
+            style={{
+              flex: 1,
+              background: '#1e293b',
+              border: '1px solid #334155',
+              borderRadius: 8,
+              padding: '0.75rem',
+              cursor: 'pointer',
+              textAlign: 'center',
+              transition: 'border-color 0.2s',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.borderColor = '#34d399'}
+            onMouseLeave={(e) => e.currentTarget.style.borderColor = '#334155'}
+          >
+            <div style={{ fontSize: '1.3rem', marginBottom: '0.25rem' }}>📥</div>
+            <div style={{ fontSize: '0.8rem', color: '#f1f5f9', fontWeight: 500 }}>Incoming Referrals</div>
+          </div>
         </div>
 
         {error && (
@@ -327,6 +369,20 @@ export default function HomePage() {
                         No Show
                       </button>
                     )}
+                    <button
+                      onClick={() => navigate(`/refer?patient_id=${appt.patient_id}&patient_name=${encodeURIComponent(appt.patient_name)}`)}
+                      style={{
+                        padding: '0.55rem 0.75rem',
+                        background: 'rgba(52, 211, 153, 0.08)',
+                        border: '1px solid rgba(52, 211, 153, 0.2)',
+                        color: '#34d399',
+                        borderRadius: 6,
+                        cursor: 'pointer',
+                        fontSize: '0.8rem',
+                      }}
+                    >
+                      Refer
+                    </button>
                   </div>
                 </div>
               )

@@ -93,3 +93,58 @@ export async function updateAppointmentStatus(appointmentId, newStatus) {
   }
   return res.json()
 }
+
+// ── Referrals ───────────────────────────────────────────────────────────────
+
+export async function createReferral(data) {
+  const res = await apiFetch('/api/referrals', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to create referral' }))
+    throw new Error(err.detail || 'Failed to create referral')
+  }
+  return res.json()
+}
+
+export async function fetchIncomingReferrals(facilityId, status) {
+  let url = `/api/referrals/facility/${facilityId}/incoming`
+  if (status) url += `?status=${status}`
+  const res = await apiFetch(url)
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to fetch referrals' }))
+    throw new Error(err.detail || 'Failed to fetch referrals')
+  }
+  return res.json()
+}
+
+export async function updateReferralStatus(referralId, status) {
+  const res = await apiFetch(`/api/referrals/${referralId}/status`, {
+    method: 'PATCH',
+    body: JSON.stringify({ status }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to update referral' }))
+    throw new Error(err.detail || 'Failed to update referral')
+  }
+  return res.json()
+}
+
+export async function fetchNearbyFacilities(lat, lng, radiusKm) {
+  const res = await apiFetch(`/api/facilities/nearby?lat=${lat}&lng=${lng}&radius_km=${radiusKm || 50}`)
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to fetch facilities' }))
+    throw new Error(err.detail || 'Failed to fetch facilities')
+  }
+  return res.json()
+}
+
+export async function fetchPatientReferrals(patientId) {
+  const res = await apiFetch(`/api/referrals/patient/${patientId}`)
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to fetch patient referrals' }))
+    throw new Error(err.detail || 'Failed to fetch patient referrals')
+  }
+  return res.json()
+}

@@ -1,59 +1,48 @@
-import { useEffect, useState } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import LoginPage from './pages/LoginPage'
+import HomePage from './pages/HomePage'
+import ReferralTrackingPage from './pages/ReferralTrackingPage'
 import './App.css'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth()
+  if (loading) {
+    return (
+      <div className="app" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#0f172a' }}>
+        <div style={{ width: 40, height: 40, border: '3px solid rgba(251, 146, 60, 0.2)', borderTopColor: '#fb923c', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+      </div>
+    )
+  }
+  return user ? children : <Navigate to="/login" replace />
+}
+
+function AppRoutes() {
+  const { user, loading } = useAuth()
+  if (loading) { 
+    return (
+      <div className="app" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#0f172a' }}>
+        <div style={{ width: 40, height: 40, border: '3px solid rgba(251, 146, 60, 0.2)', borderTopColor: '#fb923c', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+      </div>
+    )
+  }
+  return (
+    <Routes>
+      <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
+      <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+      <Route path="/referrals" element={<ProtectedRoute><ReferralTrackingPage /></ProtectedRoute>} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  )
+}
 
 function App() {
-  const [health, setHealth] = useState(null)
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
-
-  const checkHealth = async () => {
-    setLoading(true)
-    setError(null)
-    try {
-      const res = await fetch(`${API_URL}/api/health`)
-      const data = await res.json()
-      setHealth(data)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    checkHealth()
-  }, [])
-
   return (
-    <div className="app">
-      <div className="card">
-        <div className="badge badge-admin">Admin Portal</div>
-        <h1>Rural Healthcare Platform</h1>
-        <p className="subtitle">Admin Frontend</p>
-
-        <div className="health-status">
-          <h2>API Health Check</h2>
-          {loading && <div className="status loading">Connecting…</div>}
-          {error && (
-            <div className="status error">
-              <span className="dot dot-error"></span>
-              Offline — {error}
-            </div>
-          )}
-          {health && (
-            <div className="status success">
-              <span className="dot dot-success"></span>
-              {health.status} — {new Date(health.timestamp).toLocaleString()}
-            </div>
-          )}
-          <button onClick={checkHealth} disabled={loading}>
-            Refresh
-          </button>
-        </div>
-      </div>
-    </div>
+    <BrowserRouter>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
 
