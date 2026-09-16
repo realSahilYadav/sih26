@@ -147,3 +147,290 @@ button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ── Assisted Mode (Health Worker UI) ─────────────────────────────────────── */
+
+.assisted-mode {
+  font-size: 1.1rem;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.assisted-mode h1 {
+  font-size: 1.6rem;
+}
+
+.assisted-mode h2 {
+  font-size: 1.25rem;
+}
+
+.assisted-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(251, 146, 60, 0.15);
+  color: #fb923c;
+  margin-bottom: 1rem;
+}
+
+.patient-banner {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 0.65rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: -1.5rem -1rem 1.25rem;
+  border-radius: 12px 12px 0 0;
+}
+
+.patient-banner-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.patient-banner-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.patient-banner-name {
+  color: #f1f5f9;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.patient-banner-phone {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+.patient-banner-change {
+  color: #38bdf8;
+  font-size: 0.78rem;
+  cursor: pointer;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  padding: 4px 8px;
+}
+
+.assisted-card {
+  background: #1e293b;
+  border: 1.5px solid #334155;
+  border-radius: 14px;
+  padding: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 72px;
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.assisted-card:hover,
+.assisted-card:active {
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.08);
+}
+
+.assisted-card:active {
+  transform: translateY(0);
+}
+
+.assisted-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.assisted-card-text h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #f1f5f9;
+  font-weight: 600;
+}
+
+.assisted-card-text p {
+  margin: 0.2rem 0 0;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.assisted-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 56px;
+  padding: 0.9rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.assisted-btn-primary {
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.2);
+}
+
+.assisted-btn-primary:hover:not(:disabled) {
+  box-shadow: 0 6px 24px rgba(14, 165, 233, 0.3);
+  transform: translateY(-1px);
+}
+
+.assisted-btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.assisted-btn-secondary {
+  background: #334155;
+  color: #f1f5f9;
+}
+
+.assisted-btn-secondary:hover:not(:disabled) {
+  background: #3e4f66;
+}
+
+.assisted-btn-success {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+}
+
+.assisted-btn-danger {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.assisted-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.assisted-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: #0f172a;
+  border: 1.5px solid #334155;
+  border-radius: 10px;
+  color: #f1f5f9;
+  font-size: 1.05rem;
+  transition: border-color 0.2s;
+}
+
+.assisted-input:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+}
+
+.assisted-input::placeholder {
+  color: #475569;
+}
+
+.assisted-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  background: #1e293b;
+  border-radius: 10px;
+  border: 1.5px solid #334155;
+  min-height: 56px;
+  transition: border-color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.assisted-checkbox-row:active,
+.assisted-checkbox-row.selected {
+  border-color: #38bdf8;
+}
+
+.assisted-checkbox-row input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  accent-color: #38bdf8;
+  flex-shrink: 0;
+}
+
+.assisted-checkbox-row span {
+  color: #f1f5f9;
+  font-size: 0.95rem;
+}
+
+.assisted-lang-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0.5rem 1.5rem;
+  border-radius: 999px;
+  border: 2px solid #334155;
+  background: #1e293b;
+  color: #94a3b8;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.assisted-lang-pill.active {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes assisted-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.assisted-animate-in {
+  animation: assisted-fade-in 0.3s ease-out;
+}

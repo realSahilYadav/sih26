@@ -10,6 +10,10 @@ import TriagePage from './pages/TriagePage'
 import MedicineSearch from './pages/MedicineSearch'
 import ABHALinkPage from './pages/ABHALinkPage'
 import ProfilePage from './pages/ProfilePage'
+import AssistedHome from './pages/AssistedHome'
+import AssistedRegister from './pages/AssistedRegister'
+import AssistedTriage from './pages/AssistedTriage'
+import AssistedBook from './pages/AssistedBook'
 import LanguagePicker from './components/LanguagePicker'
 import './App.css'
 
@@ -40,6 +44,38 @@ function ProtectedRoute({ children }) {
   return user ? children : <Navigate to="/login" replace />
 }
 
+/**
+ * Route guard for health_worker role — redirects non-health-workers to /.
+ */
+function AssistedRoute({ children }) {
+  const { user, loading } = useAuth()
+
+  if (loading) {
+    return (
+      <div className="app" style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        background: '#0f172a',
+      }}>
+        <div style={{
+          width: 40,
+          height: 40,
+          border: '3px solid rgba(56, 189, 248, 0.2)',
+          borderTopColor: '#38bdf8',
+          borderRadius: '50%',
+          animation: 'spin 0.7s linear infinite',
+        }} />
+      </div>
+    )
+  }
+
+  if (!user) return <Navigate to="/login" replace />
+  if (user.role !== 'health_worker') return <Navigate to="/" replace />
+  return children
+}
+
 function AppRoutes() {
   const { user, loading } = useAuth()
 
@@ -68,6 +104,11 @@ function AppRoutes() {
   const [langPickerDismissed, setLangPickerDismissed] = useState(false)
   const showLangPicker = user && !loading && user.preferred_language === 'en' && !langPickerDismissed
 
+  // Health workers get redirected to assisted mode from /
+  const homeElement = user?.role === 'health_worker'
+    ? <Navigate to="/assisted" replace />
+    : <ProtectedRoute><HomePage /></ProtectedRoute>
+
   return (
     <>
       {showLangPicker && (
@@ -75,7 +116,7 @@ function AppRoutes() {
       )}
       <Routes>
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
-        <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+        <Route path="/" element={homeElement} />
         <Route path="/facilities" element={<ProtectedRoute><FacilitySearch /></ProtectedRoute>} />
         <Route path="/book/:facilityId" element={<ProtectedRoute><BookAppointment /></ProtectedRoute>} />
         <Route path="/appointments" element={<ProtectedRoute><MyAppointments /></ProtectedRoute>} />
@@ -83,6 +124,13 @@ function AppRoutes() {
         <Route path="/medicines" element={<ProtectedRoute><MedicineSearch /></ProtectedRoute>} />
         <Route path="/abha/link" element={<ProtectedRoute><ABHALinkPage /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+
+        {/* Health Worker — Assisted Mode */}
+        <Route path="/assisted" element={<AssistedRoute><AssistedHome /></AssistedRoute>} />
+        <Route path="/assisted/register" element={<AssistedRoute><AssistedRegister /></AssistedRoute>} />
+        <Route path="/assisted/triage" element={<AssistedRoute><AssistedTriage /></AssistedRoute>} />
+        <Route path="/assisted/book" element={<AssistedRoute><AssistedBook /></AssistedRoute>} />
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
@@ -100,3 +148,4 @@ function App() {
 }
 
 export default App
+

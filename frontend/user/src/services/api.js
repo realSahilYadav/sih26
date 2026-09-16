@@ -278,3 +278,62 @@ export async function updateLanguage(language) {
   }
   return res.json()
 }
+
+// ── Health Worker (Assisted Mode) ───────────────────────────────────────────
+
+/**
+ * Register a new patient on behalf (health worker only).
+ */
+export async function registerPatient(name, phone, preferredLanguage = 'hi') {
+  const res = await apiFetch('/api/health-worker/register-patient', {
+    method: 'POST',
+    body: JSON.stringify({ name, phone, preferred_language: preferredLanguage }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Registration failed' }))
+    throw new Error(err.detail || 'Patient registration failed')
+  }
+  return res.json()
+}
+
+/**
+ * Run triage on behalf of a patient (health worker only).
+ */
+export async function assistedTriage(patientId, symptoms, freeText, vitals) {
+  const res = await apiFetch('/api/health-worker/triage', {
+    method: 'POST',
+    body: JSON.stringify({
+      patient_id: patientId,
+      symptoms,
+      free_text: freeText || null,
+      vitals: vitals || null,
+    }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Triage failed' }))
+    throw new Error(err.detail || 'Assisted triage failed')
+  }
+  return res.json()
+}
+
+/**
+ * Book appointment on behalf of a patient (health worker only).
+ */
+export async function assistedBooking(patientId, facilityId, doctorId, scheduledAt, isWalkin = false) {
+  const res = await apiFetch('/api/health-worker/book-appointment', {
+    method: 'POST',
+    body: JSON.stringify({
+      patient_id: patientId,
+      facility_id: facilityId,
+      doctor_id: doctorId,
+      scheduled_at: scheduledAt || null,
+      is_walkin: isWalkin,
+    }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Booking failed' }))
+    throw new Error(err.detail || 'Assisted booking failed')
+  }
+  return res.json()
+}
+
