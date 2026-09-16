@@ -83,3 +83,51 @@ export async function fetchFacilities(lat, lng, radiusKm) {
   }
   return res.json()
 }
+
+// ── Medicine Stock ──────────────────────────────────────────────────────────
+
+/**
+ * Get the full stock list for a facility.
+ */
+export async function fetchFacilityStock(facilityId) {
+  const res = await apiFetch(`/api/medicines/facility/${facilityId}`)
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to fetch stock' }))
+    throw new Error(err.detail || 'Failed to fetch stock')
+  }
+  return res.json()
+}
+
+/**
+ * Upsert medicine stock for a facility (admin only).
+ */
+export async function updateMedicineStock(facilityId, medicineName, quantity) {
+  const res = await apiFetch('/api/medicines/stock', {
+    method: 'POST',
+    body: JSON.stringify({
+      facility_id: facilityId,
+      medicine_name: medicineName,
+      quantity,
+    }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to update stock' }))
+    throw new Error(err.detail || 'Failed to update stock')
+  }
+  return res.json()
+}
+
+// ── Dashboard ───────────────────────────────────────────────────────────────
+
+/**
+ * Fetch facility dashboard summary (appointments, referrals, low-stock, triage trend).
+ */
+export async function fetchFacilitySummary(facilityId, lowStockThreshold = 10) {
+  const params = new URLSearchParams({ low_stock_threshold: lowStockThreshold })
+  const res = await apiFetch(`/api/dashboard/facility/${facilityId}/summary?${params}`)
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to fetch dashboard' }))
+    throw new Error(err.detail || 'Failed to fetch dashboard')
+  }
+  return res.json()
+}

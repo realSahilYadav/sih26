@@ -32,6 +32,32 @@ export default function HomePage() {
       </header>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+        {/* Dashboard Card */}
+        <div 
+          onClick={() => navigate('/dashboard')}
+          style={{
+            background: '#1e293b', border: '1px solid #334155', borderRadius: '16px', padding: '1.5rem',
+            cursor: 'pointer', transition: 'transform 0.2s, borderColor 0.2s',
+            display: 'flex', flexDirection: 'column', gap: '1rem'
+          }}
+          onMouseOver={(e) => e.currentTarget.style.borderColor = '#22c55e'}
+          onMouseOut={(e) => e.currentTarget.style.borderColor = '#334155'}
+        >
+          <div style={{
+            width: '48px', height: '48px', borderRadius: '12px',
+            background: 'linear-gradient(135deg, #22c55e, #0ea5e9)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem'
+          }}>
+            📊
+          </div>
+          <div>
+            <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.2rem' }}>Facility Dashboard</h3>
+            <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.9rem', lineHeight: 1.5 }}>
+              Appointments, referrals, stock alerts, and triage trends — all in one view.
+            </p>
+          </div>
+        </div>
+
         {/* Referral Tracking Card */}
         <div 
           onClick={() => navigate('/referrals')}
@@ -58,25 +84,28 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Facility Management Card */}
+        {/* Medicine Stock Card */}
         <div 
+          onClick={() => navigate('/stock')}
           style={{
             background: '#1e293b', border: '1px solid #334155', borderRadius: '16px', padding: '1.5rem',
-            cursor: 'not-allowed', opacity: 0.7,
+            cursor: 'pointer', transition: 'transform 0.2s, borderColor 0.2s',
             display: 'flex', flexDirection: 'column', gap: '1rem'
           }}
+          onMouseOver={(e) => e.currentTarget.style.borderColor = '#f59e0b'}
+          onMouseOut={(e) => e.currentTarget.style.borderColor = '#334155'}
         >
           <div style={{
             width: '48px', height: '48px', borderRadius: '12px',
-            background: 'linear-gradient(135deg, #0ea5e9, #6366f1)',
+            background: 'linear-gradient(135deg, #f59e0b, #ef4444)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem'
           }}>
-            🏥
+            💊
           </div>
           <div>
-            <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.2rem' }}>Facility Management</h3>
+            <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.2rem' }}>Medicine Stock</h3>
             <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.9rem', lineHeight: 1.5 }}>
-              Update facility details, manage staff, and view bed availability. (Coming soon)
+              Track and update medicine inventory for your facility. Add, edit, and monitor stock levels.
             </p>
           </div>
         </div>

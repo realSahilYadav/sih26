@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import LoginPage from './pages/LoginPage'
@@ -6,6 +7,10 @@ import FacilitySearch from './pages/FacilitySearch'
 import BookAppointment from './pages/BookAppointment'
 import MyAppointments from './pages/MyAppointments'
 import TriagePage from './pages/TriagePage'
+import MedicineSearch from './pages/MedicineSearch'
+import ABHALinkPage from './pages/ABHALinkPage'
+import ProfilePage from './pages/ProfilePage'
+import LanguagePicker from './components/LanguagePicker'
 import './App.css'
 
 function ProtectedRoute({ children }) {
@@ -59,16 +64,28 @@ function AppRoutes() {
     )
   }
 
+  // Show language picker on first login (preferred_language defaults to 'en')
+  const [langPickerDismissed, setLangPickerDismissed] = useState(false)
+  const showLangPicker = user && !loading && user.preferred_language === 'en' && !langPickerDismissed
+
   return (
-    <Routes>
-      <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
-      <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-      <Route path="/facilities" element={<ProtectedRoute><FacilitySearch /></ProtectedRoute>} />
-      <Route path="/book/:facilityId" element={<ProtectedRoute><BookAppointment /></ProtectedRoute>} />
-      <Route path="/appointments" element={<ProtectedRoute><MyAppointments /></ProtectedRoute>} />
-      <Route path="/triage" element={<ProtectedRoute><TriagePage /></ProtectedRoute>} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <>
+      {showLangPicker && (
+        <LanguagePicker onDismiss={() => setLangPickerDismissed(true)} />
+      )}
+      <Routes>
+        <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
+        <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+        <Route path="/facilities" element={<ProtectedRoute><FacilitySearch /></ProtectedRoute>} />
+        <Route path="/book/:facilityId" element={<ProtectedRoute><BookAppointment /></ProtectedRoute>} />
+        <Route path="/appointments" element={<ProtectedRoute><MyAppointments /></ProtectedRoute>} />
+        <Route path="/triage" element={<ProtectedRoute><TriagePage /></ProtectedRoute>} />
+        <Route path="/medicines" element={<ProtectedRoute><MedicineSearch /></ProtectedRoute>} />
+        <Route path="/abha/link" element={<ProtectedRoute><ABHALinkPage /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   )
 }
 

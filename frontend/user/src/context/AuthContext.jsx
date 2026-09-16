@@ -39,6 +39,8 @@ export function AuthProvider({ children }) {
       name: authResponse.name,
       role: authResponse.role,
       needs_abha_linking: authResponse.needs_abha_linking,
+      abha_id: authResponse.abha_id || null,
+      preferred_language: authResponse.preferred_language || 'en',
     })
   }
 
@@ -48,8 +50,15 @@ export function AuthProvider({ children }) {
     setUser(null)
   }
 
+  /**
+   * Partially update the user object in context (e.g. after ABHA linking).
+   */
+  function updateUser(patch) {
+    setUser((prev) => (prev ? { ...prev, ...patch } : prev))
+  }
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading, updateUser }}>
       {children}
     </AuthContext.Provider>
   )

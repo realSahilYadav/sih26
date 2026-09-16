@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import appointments, auth, facilities, health, referrals, triage
+from app.api import abha, appointments, auth, dashboard, facilities, health, medicines, referrals, triage, voice
 
 
 def create_app() -> FastAPI:
@@ -31,6 +31,10 @@ def create_app() -> FastAPI:
     app.include_router(appointments.router)
     app.include_router(triage.router)
     app.include_router(referrals.router)
+    app.include_router(medicines.router)
+    app.include_router(abha.router)
+    app.include_router(voice.router)
+    app.include_router(dashboard.router)
 
     return app
 

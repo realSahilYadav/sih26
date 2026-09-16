@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { fetchTriageSymptoms, submitTriage } from '../services/api'
+import SpeakerButton from '../components/SpeakerButton'
+import MicButton from '../components/MicButton'
 
 export default function TriagePage() {
   const navigate = useNavigate()
@@ -160,7 +162,10 @@ export default function TriagePage() {
     
     return (
       <>
-        <h2 style={{ marginBottom: '0.5rem', color: '#f1f5f9' }}>What's bothering you?</h2>
+        <h2 style={{ marginBottom: '0.5rem', color: '#f1f5f9', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          What's bothering you?
+          <SpeakerButton text="What's bothering you? Select the areas or categories where you are experiencing symptoms." />
+        </h2>
         <p style={{ color: '#94a3b8', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
           Select the areas or categories where you are experiencing symptoms.
         </p>
@@ -208,7 +213,10 @@ export default function TriagePage() {
 
     return (
       <>
-        <h2 style={{ marginBottom: '0.5rem', color: '#f1f5f9' }}>Select your symptoms</h2>
+        <h2 style={{ marginBottom: '0.5rem', color: '#f1f5f9', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          Select your symptoms
+          <SpeakerButton text="Select your symptoms. Check all that apply." />
+        </h2>
         <p style={{ color: '#94a3b8', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
           Check all that apply.
         </p>
@@ -253,7 +261,10 @@ export default function TriagePage() {
   const renderStep2 = () => {
     return (
       <>
-        <h2 style={{ marginBottom: '0.5rem', color: '#f1f5f9' }}>Vitals (Optional)</h2>
+        <h2 style={{ marginBottom: '0.5rem', color: '#f1f5f9', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          Vitals (Optional)
+          <SpeakerButton text="If you have a thermometer, please enter your body temperature in degrees Celsius." />
+        </h2>
         <p style={{ color: '#94a3b8', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
           If you have a thermometer, please enter your temperature.
         </p>
@@ -296,7 +307,10 @@ export default function TriagePage() {
   const renderStep3 = () => {
     return (
       <>
-        <h2 style={{ marginBottom: '0.5rem', color: '#f1f5f9' }}>Additional Details</h2>
+        <h2 style={{ marginBottom: '0.5rem', color: '#f1f5f9', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          Additional Details
+          <SpeakerButton text="Is there anything else you would like to tell the doctor? You can describe your symptoms or use the microphone to speak." />
+        </h2>
         <p style={{ color: '#94a3b8', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
           Is there anything else you'd like to tell the doctor? (Optional)
         </p>
@@ -318,8 +332,11 @@ export default function TriagePage() {
               resize: 'vertical',
             }}
           />
-          <div style={{ textAlign: 'right', color: '#64748b', fontSize: '0.75rem', marginTop: '0.25rem' }}>
-            {freeText.length} / 2000
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.25rem' }}>
+            <MicButton onResult={(text) => setFreeText(prev => (prev ? prev + ' ' : '') + text)} />
+            <span style={{ color: '#64748b', fontSize: '0.75rem' }}>
+              {freeText.length} / 2000
+            </span>
           </div>
         </div>
         
@@ -389,8 +406,9 @@ export default function TriagePage() {
             {badgeProps.label}
           </div>
           
-          <h3 style={{ color: '#f1f5f9', fontSize: '1.2rem', marginBottom: '1.5rem' }}>
+          <h3 style={{ color: '#f1f5f9', fontSize: '1.2rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
             {recommended_action}
+            <SpeakerButton text={recommended_action} />
           </h3>
 
           {explanation && explanation.length > 0 && (

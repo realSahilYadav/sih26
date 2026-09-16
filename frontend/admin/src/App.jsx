@@ -2,7 +2,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
+import FacilityDashboard from './pages/FacilityDashboard'
 import ReferralTrackingPage from './pages/ReferralTrackingPage'
+import StockManagement from './pages/StockManagement'
 import './App.css'
 
 function ProtectedRoute({ children }) {
@@ -30,7 +32,9 @@ function AppRoutes() {
     <Routes>
       <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
       <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+      <Route path="/dashboard" element={<ProtectedRoute><FacilityDashboard /></ProtectedRoute>} />
       <Route path="/referrals" element={<ProtectedRoute><ReferralTrackingPage /></ProtectedRoute>} />
+      <Route path="/stock" element={<ProtectedRoute><StockManagement /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

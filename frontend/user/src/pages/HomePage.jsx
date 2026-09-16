@@ -22,11 +22,25 @@ export default function HomePage() {
       gradient: 'linear-gradient(135deg, #0ea5e9, #6366f1)',
     },
     {
+      title: 'Find Medicine',
+      description: 'Check medicine availability at nearby facilities',
+      icon: '💊',
+      path: '/medicines',
+      gradient: 'linear-gradient(135deg, #f59e0b, #ef4444)',
+    },
+    {
       title: 'My Appointments',
       description: 'View upcoming and past appointments',
       icon: '📋',
       path: '/appointments',
       gradient: 'linear-gradient(135deg, #8b5cf6, #ec4899)',
+    },
+    {
+      title: 'Profile & Settings',
+      description: 'View your profile, ABHA status, and preferences',
+      icon: '⚙️',
+      path: '/profile',
+      gradient: 'linear-gradient(135deg, #64748b, #475569)',
     },
   ]
 
@@ -40,21 +54,29 @@ export default function HomePage() {
         </p>
 
         {user?.needs_abha_linking && (
-          <div style={{
-            background: 'rgba(251, 191, 36, 0.1)',
-            border: '1px solid rgba(251, 191, 36, 0.2)',
-            color: '#fbbf24',
-            padding: '0.7rem 1rem',
-            borderRadius: '8px',
-            fontSize: '0.82rem',
-            marginBottom: '1.25rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            lineHeight: '1.4',
-          }}>
+          <div
+            onClick={() => navigate('/abha/link')}
+            style={{
+              background: 'rgba(251, 191, 36, 0.1)',
+              border: '1px solid rgba(251, 191, 36, 0.2)',
+              color: '#fbbf24',
+              padding: '0.7rem 1rem',
+              borderRadius: '8px',
+              fontSize: '0.82rem',
+              marginBottom: '1.25rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              lineHeight: '1.4',
+              cursor: 'pointer',
+              transition: 'background 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(251, 191, 36, 0.15)')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(251, 191, 36, 0.1)')}
+          >
             <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>⚠️</span>
-            ABHA ID not linked — link your Ayushman Bharat Health Account for full access.
+            <span style={{ flex: 1 }}>ABHA ID not linked — tap to connect your Ayushman Bharat Health Account</span>
+            <span style={{ color: '#fbbf24', fontSize: '1rem', flexShrink: 0 }}>→</span>
           </div>
         )}
 

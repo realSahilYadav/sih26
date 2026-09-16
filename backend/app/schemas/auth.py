@@ -36,6 +36,7 @@ class AuthResponse(BaseModel):
     role: str
     name: str
     needs_abha_linking: bool
+    preferred_language: str = "en"
 
 
 class UserMeResponse(BaseModel):
@@ -47,6 +48,7 @@ class UserMeResponse(BaseModel):
     role: str
     preferred_language: str
     needs_abha_linking: bool
+    abha_id: str | None = None
     created_at: datetime
 
 

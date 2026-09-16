@@ -17,6 +17,7 @@ from app.schemas.auth import (
     OTPVerify,
     UserMeResponse,
 )
+from app.schemas.voice import LanguageUpdateRequest
 from app.services.auth import create_otp_request, verify_otp_and_login
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
@@ -62,5 +63,18 @@ async def get_me(user: Annotated[User, Depends(get_current_user)]):
         role=user.role.value,
         preferred_language=user.preferred_language,
         needs_abha_linking=user.abha_id is None,
+        abha_id=user.abha_id,
         created_at=user.created_at,
     )
+
+
+@router.put("/language")
+async def update_language(
+    body: LanguageUpdateRequest,
+    user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[Session, Depends(get_db)],
+):
+    """Update the authenticated user's preferred language."""
+    user.preferred_language = body.language
+    db.commit()
+    return {"message": "Language updated", "language": body.language}

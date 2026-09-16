@@ -97,4 +97,5 @@ async def verify_otp_and_login(phone: str, otp: str, db: Session) -> AuthRespons
         role=user.role.value,
         name=user.name,
         needs_abha_linking=user.abha_id is None,
+        preferred_language=user.preferred_language,
     )

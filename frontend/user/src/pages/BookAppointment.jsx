@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { fetchDoctorAvailability, bookAppointment } from '../services/api'
+import SpeakerButton from '../components/SpeakerButton'
 
 // Steps: doctor → date → slot → confirm
 const STEPS = ['doctor', 'date', 'slot', 'confirm']
@@ -193,7 +194,10 @@ export default function BookAppointment() {
       {/* Step 0: Pick doctor */}
       {step === 0 && (
         <div>
-          <h2 style={{ fontSize: '1.1rem', color: '#e2e8f0', marginBottom: '1rem' }}>Select a Doctor</h2>
+          <h2 style={{ fontSize: '1.1rem', color: '#e2e8f0', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            Select a Doctor
+            <SpeakerButton text="Select a doctor. Choose a date first to see which doctors are available." />
+          </h2>
           <p style={{ color: '#94a3b8', fontSize: '0.82rem', marginBottom: '1rem' }}>
             Choose a date first to see which doctors are available.
           </p>
@@ -271,7 +275,10 @@ export default function BookAppointment() {
       {/* Step 1: Pick date (already chosen, show confirmation + change option) */}
       {step === 1 && (
         <div>
-          <h2 style={{ fontSize: '1.1rem', color: '#e2e8f0', marginBottom: '1rem' }}>Choose Date</h2>
+          <h2 style={{ fontSize: '1.1rem', color: '#e2e8f0', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            Choose Date
+            <SpeakerButton text="Choose a date for your appointment." />
+          </h2>
           <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
             {weekdays.map((d) => (
               <button
@@ -327,7 +334,10 @@ export default function BookAppointment() {
       {/* Step 2: Pick slot or walk-in */}
       {step === 2 && (
         <div>
-          <h2 style={{ fontSize: '1.1rem', color: '#e2e8f0', marginBottom: '1rem' }}>Select Time Slot</h2>
+          <h2 style={{ fontSize: '1.1rem', color: '#e2e8f0', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            Select Time Slot
+            <SpeakerButton text="Select a time slot for your appointment. Green slots are available." />
+          </h2>
 
           {/* Walk-in option */}
           <div
@@ -398,7 +408,10 @@ export default function BookAppointment() {
       {/* Step 3: Confirm */}
       {step === 3 && (
         <div>
-          <h2 style={{ fontSize: '1.1rem', color: '#e2e8f0', marginBottom: '1rem' }}>Confirm Booking</h2>
+          <h2 style={{ fontSize: '1.1rem', color: '#e2e8f0', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            Confirm Booking
+            <SpeakerButton text="Please confirm your appointment details and tap the book button." />
+          </h2>
 
           <div style={{
             background: '#1e293b',
